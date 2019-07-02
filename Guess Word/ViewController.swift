@@ -22,8 +22,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
     let LIST_OF_WORDS: [String] = ["GoodMorning", "GoodBye", "NandanKanan", "KarlMax"]
     let LIST_OF_HINTS: [String] = ["Greetings", "FireWell", "Safali in Odisha", "Creator of Maxism"]
     var wordToGuess: String!
-    var wordUnderScores: String!
-    let MAX_NUMBER_OF_GUESSES: Int = 5
+    var wordUnderScores = ""
+    let MAX_NUMBER_OF_GUESSES = 5
     var guessRemaining: Int!
     var oldRandomNumbers = 0
     
@@ -40,18 +40,13 @@ class ViewController: UIViewController,UITextFieldDelegate {
     
     
     
-    
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         inputTextField.delegate = self
     }
-/*
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         
     }
@@ -61,16 +56,29 @@ class ViewController: UIViewController,UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
     }
- */
+
 
     @IBAction func chooseNewWordAction(_ sender: UIButton) {
-        
+        reset()
         var index = chooseRandomNumbers()
         wordToGuess = LIST_OF_WORDS[index]
         wordToGuessLabe.text = wordToGuess
-        
         let hints = LIST_OF_HINTS[index]
         hintLabel.text = "hint \(hints), \(wordToGuess.count) number of letters"
+        for _ in 1...wordToGuess.count{
+            wordUnderScores.append("_")
+        }
+        wordToGuessLabe.text = wordUnderScores
+        
+        
+    }
+    
+    func reset() {
+        
+        guessRemaining = MAX_NUMBER_OF_GUESSES
+        remainingGuessesLabel.text = "\(String(describing: guessRemaining)) guesses left"
+        
+        wordUnderScores = ""
     }
     
     func chooseRandomNumbers() -> Int {
