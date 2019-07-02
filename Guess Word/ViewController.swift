@@ -19,12 +19,13 @@ class ViewController: UIViewController,UITextFieldDelegate {
     
     // Create Array to hold hints and letters(need word to guess and word as under score variable)
     
-    let LIST_OF_WORDS: [String] = []
-    let LIST_OF_HINTS: [String] = []
+    let LIST_OF_WORDS: [String] = ["GoodMorning", "GoodBye", "NandanKanan", "KarlMax"]
+    let LIST_OF_HINTS: [String] = ["Greetings", "FireWell", "Safali in Odisha", "Creator of Maxism"]
     var wordToGuess: String!
     var wordUnderScores: String!
     let MAX_NUMBER_OF_GUESSES: Int = 5
     var guessRemaining: Int!
+    var oldRandomNumbers = 0
     
     // need some way randomize which word is being selected, then select theword and hint and display them
     
@@ -50,7 +51,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         inputTextField.delegate = self
     }
-
+/*
     func textFieldDidEndEditing(_ textField: UITextField) {
         
     }
@@ -60,11 +61,29 @@ class ViewController: UIViewController,UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
     }
+ */
 
     @IBAction func chooseNewWordAction(_ sender: UIButton) {
+        
+        var index = chooseRandomNumbers()
+        wordToGuess = LIST_OF_WORDS[index]
+        wordToGuessLabe.text = wordToGuess
+        
+        let hints = LIST_OF_HINTS[index]
+        hintLabel.text = "hint \(hints), \(wordToGuess.count) number of letters"
     }
     
-    func chooseRandomNumbers() {
+    func chooseRandomNumbers() -> Int {
+        var newRandomNumbers = arc4random_uniform(UInt32(LIST_OF_WORDS.count))
+        
+        if newRandomNumbers == oldRandomNumbers{
+            
+            newRandomNumbers = UInt32(chooseRandomNumbers())
+        }
+        else{
+            oldRandomNumbers = Int(newRandomNumbers)
+        }
+        return Int(newRandomNumbers)
         
     }
     func processCorrectGuess() {
