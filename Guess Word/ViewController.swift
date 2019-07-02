@@ -47,15 +47,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         inputTextField.delegate = self
     }
 
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-    }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-    }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-    }
+    
 
 
     @IBAction func chooseNewWordAction(_ sender: UIButton) {
@@ -76,9 +68,12 @@ class ViewController: UIViewController,UITextFieldDelegate {
     func reset() {
         
         guessRemaining = MAX_NUMBER_OF_GUESSES
-        remainingGuessesLabel.text = "\(String(describing: guessRemaining)) guesses left"
+        remainingGuessesLabel.text = "\(String(describing: guessRemaining!)) guesses left"
         
         wordUnderScores = ""
+        letterBankLabel.text?.removeAll()
+        inputTextField.text?.removeAll()
+        inputTextField.isEnabled = true
     }
     
     func chooseRandomNumbers() -> Int {
@@ -94,11 +89,91 @@ class ViewController: UIViewController,UITextFieldDelegate {
         return Int(newRandomNumbers)
         
     }
-    func processCorrectGuess() {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        guard let letterGuessed = textField.text else {
+            return
+        }
+        
+        inputTextField.text?.removeAll()
+        
+        var currentLetterBank = letterBankLabel.text ?? ""
+        
+        if currentLetterBank.contains(letterGuessed){
+            return
+        }
+        else{
+        if wordToGuess.contains(letterGuessed){
+            processCorrectGuess(letterGuessed: letterGuessed)
+            
+        }
+        else{
+            processInCorrectGuess()
+        }
+            letterBankLabel.text?.append("\(letterGuessed), ")
+        }
         
     }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
+    }
+
+    
+    func processCorrectGuess(letterGuessed: String) {
+        
+        let characterGuessed = Character(letterGuessed)
+        
+        for index in wordToGuess.indices{
+            if wordToGuess[index] == characterGuessed{
+                let endIndex = wordToGuess.index(after: index)
+                let characterRange = index..<endIndex
+                    wordUnderScores = wordUnderScores.replacingCharacters(in: characterRange, with: letterGuessed)
+                
+                wordToGuessLabe.text = wordUnderScores
+                }
+            }
+        if !wordUnderScores.contains("_"){
+            remainingGuessesLabel.text = "You win! "
+            
+            inputTextField.isEnabled = false
+        }
+        }
+    
+   
     func processInCorrectGuess() {
         
+      guessRemaining! -= 1
+        
+        if guessRemaining == 0{
+            inputTextField.isEnabled = false
+            remainingGuessesLabel.text = "You lose! "
+        }
+        else{
+          remainingGuessesLabel.text = "\(guessRemaining!) guesses left"
+        }
+        
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let allowedCharacters = NSCharacterSet.letters
+        let startingLength = textField.text?.count ?? 0
+        let lengthToAdd = string.count
+        let lengthToReplace = range.length
+        let newLength = startingLength + lengthToAdd - lengthToReplace
+        
+        if string.isEmpty{
+            return true
+        }
+        else if newLength == 1{
+            
+            if let _ = string.rangeOfCharacter(from: allowedCharacters, options: .caseInsensitive){
+                return true
+            }
+        }
+        return false
     }
 }
 
