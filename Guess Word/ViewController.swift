@@ -8,13 +8,33 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UITextFieldDelegate {
 
+    @IBOutlet weak var hintLabel: UILabel!
+    @IBOutlet weak var wordToGuessLabe: UILabel!
+    @IBOutlet weak var remainingGuessesLabel: UILabel!
+    @IBOutlet weak var inputTextField: UITextField!
+    
+    @IBOutlet weak var letterBankLabel: UILabel!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        
+        inputTextField.delegate = self
     }
 
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+    }
 
 }
 

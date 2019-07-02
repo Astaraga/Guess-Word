@@ -75,6 +75,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="hintLabel" destination="3Ls-jP-gwR" id="19d-BD-wG3"/>
+                        <outlet property="inputTextField" destination="vg3-0X-U99" id="ff2-Ud-hvn"/>
+                        <outlet property="letterBankLabel" destination="jLY-p4-ihs" id="7Hk-y9-F6y"/>
+                        <outlet property="remainingGuessesLabel" destination="Szt-s6-8ev" id="iDl-ob-ExY"/>
+                        <outlet property="wordToGuessLabe" destination="SDG-Dr-xDB" id="iK9-EU-sxI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
