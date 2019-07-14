@@ -43,6 +43,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("View did load")
         
         inputTextField.delegate = self
     }
